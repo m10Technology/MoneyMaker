@@ -8,17 +8,17 @@
 class Compass
 {
 public:
-    Compass();
+    void setVars(int h,int i);
     bool start();
 private:
     QString pythonPath;
     int hours;
     int iterations;
     void runNaviator();
-    void captureTime();
+    void setIterations(int numberOfIterations);
     void waitTime(int hoursToWait);
-    bool tomExists();
-    void checkForFile();
+    bool checkComplete();
+
 };
 
 #endif // COMPASS_H

@@ -3,44 +3,68 @@
 #include <QThread>
 #include <QFile>
 #include <unistd.h>
-Compass::Compass()
+#include <QDir>
+
+void Compass::setVars(int h, int i)
 {
-
-
+    hours = h*3600;
+    iterations = i;
 }
 
 
 bool Compass::start()
 {
         qDebug() << "Starting Compass..." << endl;
-     //   qDebug() << "Running Cycle " << counter ;
-        captureTime();
+       //setIterations(4);
         runNaviator();
-        checkForFile();
-    }
+ }
 
 
 void Compass::runNaviator()
 {
-    system("gnome-terminal -e ~/Desktop/script.sh");
+    qDebug() << "Running Through 60 Iterations..." << endl;
+    system("gnome-terminal -e ~/Desktop/RR/startstuff.sh");
+    while(!checkComplete()){
+        qDebug() << "Not Complete" << endl;
+        sleep(5);
+    }
+    qDebug() << "Finished My Iterations" << endl;
+    waitTime(hours);
 }
 
-void Compass::captureTime()
+
+void Compass::setIterations(int numberOfIterations)
 {
+    QFile mNav(".Navigate.py");
+    if(!mNav.open(QIODevice::ReadWrite)){
+        qDebug() << "Yo your computer is not dank" << endl;
+    }
+    QTextStream in(&mNav);
+    while(!in.atEnd()){
+        QList<QString> Navigation;
+            Navigation.append(in.readLine());
+            for(int i=0; i<Navigation.length();i++){
+                qDebug() <<  Navigation.at(i);
+            }
+
+    }
 
 }
+
 
 void Compass::waitTime(int hoursToWait)
 {
-    qDebug() << "Starting Waiting" << endl;
-    sleep(5);
-    qDebug() << "End Waiting" << endl;
+    qDebug() << "Taking a Break" << endl;
+    sleep(hoursToWait);
+    qDebug() << "All Finished, starting over now..." << endl;
+    this->start();
 }
 
-bool Compass::tomExists()
+bool Compass::checkComplete()
 {
-    QFile tomsFile("/home/garrett/Desktop/time.txt");
-    if(tomsFile.exists()){
+
+    QFile timeFile("./time.txt");
+    if(timeFile.exists()){
         return true;
     }
     else{
@@ -48,15 +72,6 @@ bool Compass::tomExists()
     }
 }
 
-void Compass::checkForFile()
-{
-    if(!tomExists()){
-        qDebug() << "Checking for Tom" << endl;
-        sleep(5);
-        checkForFile();
-    }
-    qDebug() << "Tom Achieved!" << endl;
-    waitTime(2000);
-    this->start();
-}
+
+
 
