@@ -4,6 +4,8 @@
 #include <QFile>
 #include <unistd.h>
 #include <QDir>
+#include "terminalthread.h"
+
 
 void Compass::setVars(int h, int i)
 {
@@ -15,7 +17,6 @@ void Compass::setVars(int h, int i)
 bool Compass::start()
 {
         qDebug() << "Starting Compass..." << endl;
-       //setIterations(4);
         runNaviator();
  }
 
@@ -23,13 +24,10 @@ bool Compass::start()
 void Compass::runNaviator()
 {
     qDebug() << "Running Through 60 Iterations..." << endl;
-    system("gnome-terminal -e ~/Desktop/RR/startstuff.sh");
-    while(!checkComplete()){
-        qDebug() << "Not Complete" << endl;
-        sleep(5);
-    }
-    qDebug() << "Finished My Iterations" << endl;
-    waitTime(hours);
+    TerminalThread *mThread = new TerminalThread();
+    mThread->setParent(this,hours,iterations);
+    mThread->start();
+
 }
 
 

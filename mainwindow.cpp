@@ -18,8 +18,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     //Start Magic
-    QString path = "/home/garrett/Desktop/python.py";
-    int iterations = 5;
+    int iterations = ui->spinBox->value();
     int hoursBetweenCycle = ui->spinBox_2->value();
 
     Compass mComp;
