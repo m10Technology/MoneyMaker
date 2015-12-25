@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     compass.cpp \
-    updater.cpp
+    updater.cpp \
+    terminalthread.cpp
 
 HEADERS  += mainwindow.h \
     compass.h \
-    updater.h
+    updater.h \
+    terminalthread.h
 
 FORMS    += mainwindow.ui
